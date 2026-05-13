@@ -1,0 +1,10 @@
+{
+  ".git/simplecalculator.sol": {
+    "__sources__": {
+      ".git/simplecalculator.sol": {
+        "content": "// SPDX-License-Identifier: MIT\r\npragma solidity ^0.8.0;\r\ncontract SimpleMath {\r\n// Initialization of num1 and num2\r\nuint256 num1 = 20;\r\nuint256 num2 = 5;\r\nuint public additionResult = num1 + num2; // addition\r\nuint public subtractionResult = num1 - num2; // subtraction\r\nuint public multiplicationResult = num1 * num2; // multiplication\r\nuint public divisionResult = num1 / num2; // division\r\n}",
+        "file": ".git/simplecalculator.sol"
+      }
+    }
+  }
+}
