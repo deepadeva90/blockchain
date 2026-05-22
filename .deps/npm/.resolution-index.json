@@ -6,5 +6,29 @@
         "file": ".git/simplecalculator.sol"
       }
     }
+  },
+  ".git/abstract.sol": {
+    "__sources__": {
+      ".git/abstract.sol": {
+        "content": "// SPDX-License-Identifier: MIT\r\npragma solidity ^0.8.0;\r\n\r\n// Abstract contract\r\n\r\n abstract contract Bank {\r\n\r\n    uint public balance;\r\n\r\n    // Function with definition\r\n\r\n    function getBalance() public view returns (uint) {\r\n\r\n        return balance;\r\n\r\n    }\r\n\r\n    // Function with declaration only (abstract function)\r\n\r\n    function deposit(uint amount) public virtual;\r\n\r\n}\r\n\r\n// Child contract\r\n\r\ncontract MyBank is Bank {\r\n\r\n    function deposit(uint amount) public override {\r\n\r\n        balance = balance + amount;\r\n\r\n    }\r\n\r\n}",
+        "file": ".git/abstract.sol"
+      }
+    }
+  },
+  ".git/abexercise.sol": {
+    "__sources__": {
+      ".git/abexercise.sol": {
+        "content": "// SPDX-License-Identifier: MIT\r\npragma solidity ^0.8.0;\r\nabstract contract Abstractcontract{\r\nfunction getstr(string memory _str) public pure virtual returns(\r\nstring memory);\r\nfunction setValue(uint _in1, uint _in2) public virtual;\r\nfunction add() public virtual returns(uint);\r\n}\r\ncontract derivedcontract is Abstractcontract{\r\nuint private num1;\r\nuint private num2;\r\nfunction getstr(string memory _strin) public pure override returns(string\r\nmemory){\r\nreturn _strin;\r\n}\r\nfunction setValue(uint _in1, uint _in2) public override{\r\nnum1=_in1;\r\nnum2=_in2;\r\n}\r\nfunction add() public view override returns (uint){\r\nreturn (num1 + num2);\r\n}\r\n}",
+        "file": ".git/abexercise.sol"
+      }
+    }
+  },
+  ".git/drug logistics.sol": {
+    "__sources__": {
+      ".git/drug logistics.sol": {
+        "content": "// SPDX-License-Identifier: MIT\r\npragma solidity ^0.8.20;\r\n\r\ncontract DrugSupplyChain {\r\n    address public owner;\r\n\r\n    enum Status { Registered, Shipped, Delivered, Sold }\r\n    struct Drug {\r\n        string name;\r\n        string batchNumber;\r\n        uint expiryDate;\r\n        address currentOwner;\r\n        Status status;\r\n        address[] ownersHistory;\r\n    }\r\n\r\n    mapping(uint => Drug) public drugs;\r\n    mapping(address => bool) public stakeholders; // manufacturers, suppliers, etc.\r\n    uint public drugCount;\r\n\r\n    event DrugRegistered(uint id, string name, string batchNumber, address manufacturer);\r\n    event StatusUpdated(uint id, Status newStatus, address updatedBy);\r\n    event OwnershipTransferred(uint id, address from, address to);\r\n\r\n    modifier onlyStakeholder() {\r\n        require(stakeholders[msg.sender], \"Not a registered stakeholder\");\r\n        _;\r\n    }\r\n\r\n    modifier onlyCurrentOwner(uint _id) {\r\n        require(drugs[_id].currentOwner == msg.sender, \"Not current owner\");\r\n        _;\r\n    }\r\n\r\n    constructor() {\r\n        owner = msg.sender;\r\n    }\r\n\r\n    function registerStakeholder(address _stakeholder) public {\r\n        require(msg.sender == owner, \"Only owner can register\");\r\n        stakeholders[_stakeholder] = true;\r\n    }\r\n\r\n    function registerDrug(string memory _name, string memory _batchNumber, uint _expiryDate) public onlyStakeholder {\r\n        drugCount++;\r\n        drugs[drugCount] = Drug(_name, _batchNumber, _expiryDate, msg.sender, Status.Registered, new address[](0));\r\n        drugs[drugCount].ownersHistory.push(msg.sender);\r\n        emit DrugRegistered(drugCount, _name, _batchNumber, msg.sender);\r\n    }\r\n\r\n    function updateStatus(uint _id, Status _newStatus) public onlyCurrentOwner(_id) {\r\n        drugs[_id].status = _newStatus;\r\n        emit StatusUpdated(_id, _newStatus, msg.sender);\r\n    }\r\n\r\n    function transferOwnership(uint _id, address _newOwner) public onlyCurrentOwner(_id) {\r\n        require(_newOwner != address(0), \"Invalid address\");\r\n        require(stakeholders[_newOwner], \"New owner not registered\");\r\n        address prevOwner = drugs[_id].currentOwner;\r\n        drugs[_id].currentOwner = _newOwner;\r\n        drugs[_id].ownersHistory.push(_newOwner);\r\n        emit OwnershipTransferred(_id, prevOwner, _newOwner);\r\n    }\r\n\r\n    function getDrugDetails(uint _id) public view returns (\r\n        string memory name, string memory batchNumber, uint expiryDate,\r\n        address currentOwner, Status status, address[] memory history\r\n    ) {\r\n        Drug storage drug = drugs[_id];\r\n        return (drug.name, drug.batchNumber, drug.expiryDate, drug.currentOwner, drug.status, drug.ownersHistory);\r\n    }\r\n}",
+        "file": ".git/drug logistics.sol"
+      }
+    }
   }
 }
